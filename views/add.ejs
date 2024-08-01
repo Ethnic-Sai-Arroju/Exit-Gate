@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Student Details</title>
+  <style>
+    /* Basic CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body Styles */
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-image: url('https://wallpapercave.com/wp/wp4676574.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    /* Navbar Styles */
+    .navbar {
+      width: 100%;
+      background-color: #333;
+      overflow: hidden;
+      box-shadow: 0px 0px 10px rgb(0, 0, 0);
+    }
+
+    .navbar a {
+      float: left;
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 20px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      font-weight: bold;
+    }
+
+    .navbar a:hover {
+      background-color: #575757;
+    }
+
+    .navbar .logout-button {
+      float: right;
+      background-color: #e74c3c;
+    }
+
+    .navbar .logout-button:hover {
+      background-color: #c0392b;
+    }
+
+    /* Container Styles */
+    .container {
+      width: 400px;
+      padding: 50px;
+      background-color: #eccdcd;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgb(0, 0, 0);
+      margin-top: 50px; /* Adjust margin to give space for navbar */
+    }
+
+    /* Form Styles */
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: rgb(0, 0, 0);
+      text-shadow: 0px 0px 2px rgb(255, 255, 255);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: rgb(0, 0, 0);
+      text-shadow: 0px 0px 0px rgb(0, 0, 0);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="file"],
+    input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 2px;
+      color: #000000;
+      box-shadow: 0px 0px 5px rgb(0, 0, 0);
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="file"]:focus {
+      outline: none;
+      box-shadow: 0px 0px 15px rgb(233, 156, 40);
+    }
+
+    input[type="submit"] {
+      background-color: rgb(255, 153, 0);
+      color: #000;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0px 0px 20px rgb(233, 156, 40);
+    }
+
+    input[type="submit"]:hover {
+      background-color: rgb(180, 131, 56);
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <a href="/add">Add Student</a>
+    <a href="/permit-student">Permit Student</a>
+    <a href="/notify">Notify</a>
+    <a href="/logout" class="logout-button">Logout</a>
+  </div>
+
+  <div class="container">
+    <h1>Add Student Details</h1>
+    <form id="addStudentForm" action="/add-student" method="post" enctype="multipart/form-data">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+      <label for="rollNumber">Roll Number:</label>
+      <input type="text" id="rollNumber" name="rollNumber" required>
+      <label for="parentEmail">Parent eMail:</label>
+      <input type="email" id="parentEmail" name="parentEmail" required>
+      <label for="photo">Photo:</label>
+      <input type="file" id="photo" name="photo" required>
+      <input type="submit" value="Submit">
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('addStudentForm').addEventListener('submit', async function (event) {
+      event.preventDefault(); // Prevent default form submission behavior
+
+      const form = event.target;
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch(form.action, {
+          method: form.method,
+          body: formData
+        });
+
+        const result = await response.json();
+        alert(result.message);
+        // Redirect to another page if needed
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while saving student details.');
+      }
+    });
+  </script>
+</body>
+</html>

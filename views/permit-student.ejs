@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Permit Student</title>
+  <style>
+    /* Basic CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body Styles */
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-image: url('https://wallpapercave.com/wp/wp4676574.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding-top: 60px; /* Add padding to account for fixed navbar */
+    }
+
+    /* Navbar Styles */
+    .navbar {
+      width: 100%;
+      background-color: #333;
+      overflow: hidden;
+      box-shadow: 0px 0px 10px rgb(0, 0, 0);
+      position: fixed; /* Keep navbar fixed at the top */
+      top: 0;
+      z-index: 1000; /* Ensure navbar is above other elements */
+    }
+
+    .navbar a {
+      float: left;
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 20px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      font-weight: bold;
+    }
+
+    .navbar a:hover {
+      background-color: #575757;
+    }
+
+    .navbar .logout-button {
+      float: right;
+      background-color: #e74c3c;
+    }
+
+    .navbar .logout-button:hover {
+      background-color: #c0392b;
+    }
+
+    /* Container Styles */
+    .container {
+      width: 400px;
+      padding: 50px;
+      background-color: #eccdcd;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgb(0, 0, 0);
+      margin-top: 50px; /* Adjust margin to give space for navbar */
+    }
+
+    /* Form Styles */
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: rgb(0, 0, 0);
+      text-shadow: 0px 0px 2px rgb(255, 255, 255);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: rgb(0, 0, 0);
+      text-shadow: 0px 0px 0px rgb(0, 0, 0);
+    }
+
+    input[type="text"],
+    input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 2px;
+      color: #000000;
+      box-shadow: 0px 0px 5px rgb(0, 0, 0);
+    }
+
+    input[type="text"]:focus,
+    input[type="submit"]:focus {
+      outline: none;
+      box-shadow: 0px 0px 15px rgb(233, 156, 40);
+    }
+
+    input[type="submit"] {
+      background-color: rgb(255, 153, 0);
+      color: #000;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0px 0px 20px rgb(233, 156, 40);
+    }
+
+    input[type="submit"]:hover {
+      background-color: rgb(180, 131, 56);
+    }
+
+    /* Button Styles */
+    .view-details-button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #4CAF50;
+      color: white;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0px 0px 20px rgb(233, 156, 40);
+      text-align: center;
+      transition: background-color 0.3s ease;
+    }
+
+    .view-details-button:hover {
+      background-color: #45a049;
+    }
+
+    /* Display Student Details Styles */
+    .student-details {
+      max-width: 400px;
+      margin: 20px auto;
+      background-color: #eccdcd;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgb(0, 0, 0);
+    }
+
+    .student-details h2 {
+      color: rgb(0, 0, 0);
+      text-shadow: 0px 0px 2px rgb(255, 255, 255);
+    }
+
+    .student-details p {
+      color: rgb(0, 0, 0);
+    }
+
+    .student-details img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <a href="/add">Add Student</a>
+    <a href="/permit-student">Permit Student</a>
+    <a href="/notify">Notify</a>
+    <a href="/logout" class="logout-button">Logout</a>
+  </div>
+
+  <div class="container">
+    <h1>Permit Student Details</h1>
+    <form id="permitForm" action="/permit-student-details" method="post">
+      <label for="rollNumber">Enter Roll Number:</label>
+      <input type="text" id="rollNumber" name="rollNumber" required>
+      <input type="submit" value="Permit">
+    </form>
+    <button class="view-details-button" onclick="viewStudentDetails()">View Details</button>
+    <div class="student-details" id="studentDetails"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('permitForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        var rollNumber = document.getElementById('rollNumber').value;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/permit-student-details', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+              var response = JSON.parse(xhr.responseText);
+              alert(response.message); // Display alert with the message received from the server
+            } else {
+              alert('Error: ' + xhr.statusText); // Display error alert
+            }
+          }
+        };
+        xhr.send(JSON.stringify({ rollNumber: rollNumber }));
+      });
+    });
+
+    // Define the viewStudentDetails function
+    function viewStudentDetails() {
+      var rollNumber = document.getElementById('rollNumber').value;
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/permit-student-details?rollNumber=' + rollNumber, true);
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            var student = JSON.parse(xhr.responseText);
+            // Update the studentDetails div with the student's information
+            var studentDetailsDiv = document.getElementById('studentDetails');
+            studentDetailsDiv.innerHTML = '<h2>Student Details</h2>' +
+              '<p>Name: ' + student.name + '</p>' +
+              '<p>Roll Number: ' + student.rollNumber + '</p>' +
+              '<p>Email: ' + student.parentEmail + '</p>';
+            if (student.picture) {
+              studentDetailsDiv.innerHTML += '<img src="data:image/jpeg;base64,' + student.picture + '" alt="Student Photo">';
+            } else {
+              studentDetailsDiv.innerHTML += '<p>No photo available</p>';
+            }
+          } else {
+            alert('Error: ' + xhr.statusText); // Display error alert
+          }
+        }
+      };
+      xhr.send();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Student Details</title>
+  <style>
+    /* Add your CSS styles here */
+    /* Example styles */
+    .student-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .student-details {
+      margin-bottom: 20px;
+    }
+    .student-photo {
+      max-width: 200px;
+      max-height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <div class="student-container">
+    <h1>Student Details</h1>
+    <div id="studentDetails"></div>
+  </div>
+
+  <script>
+    // Fetch student details from the backend
+    fetch('/get-students')
+      .then(response => response.json())
+      .then(students => {
+        const studentDetailsContainer = document.getElementById('studentDetails');
+        students.forEach(student => {
+          const studentDiv = document.createElement('div');
+          studentDiv.classList.add('student-details');
+
+          // Display student details
+          studentDiv.innerHTML = `
+            <h2>${student.name}</h2>
+            <p>Roll Number: ${student.rollNumber}</p>
+            <p>Parent Email: ${student.parentEmail}</p>
+          `;
+
+          // Display student photo if available
+          if (typeof student.picture === 'string') {
+            const img = document.createElement('img');
+            img.classList.add('student-photo');
+            img.src = `/uploads/${student.picture}`; // Assuming the photos are stored in the '/uploads/' directory
+            studentDiv.appendChild(img);
+          }
+
+          studentDetailsContainer.appendChild(studentDiv);
+        });
+      })
+      .catch(error => console.error('Error fetching student details:', error));
+  </script>
+</body>
+</html>

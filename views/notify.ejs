@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notify</title>
+  <style>
+    /* Basic reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-image: url('https://wallpapercave.com/wp/wp4676574.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      background-color: #ffffff; /* Fallback background color */
+      margin: 0;
+      padding: 20px;
+    }
+
+        /* Navbar Styles */
+        .navbar {
+      width: 100%;
+      background-color: #333;
+      overflow: hidden;
+      box-shadow: 0px 0px 10px rgb(0, 0, 0);
+    }
+
+    .navbar a {
+      float: left;
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 20px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      font-weight: bold;
+    }
+
+    .navbar a:hover {
+      background-color: #575757;
+    }
+
+    .navbar .logout-button {
+      float: right;
+      background-color: #e74c3c;
+    }
+
+    .navbar .logout-button:hover {
+      background-color: #c0392b;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #ffffff; /* Text color for better visibility */
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Neon glow effect for text */
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px rgb(255, 136, 0); /* Neon glow effect for table */
+    }
+
+    th, td {
+      border: 1px solid #000000;
+      border-radius: 7px;
+      padding: 8px;
+      text-align: left;
+      color: #000000; /* Text color for better visibility */
+    }
+
+    th {
+      background-color: #000000; /* Header background color */
+      color: #ffffff; /* Header text color */
+    }
+
+    tr {
+      background-color: #e9a6a6; /* Set the background color to white */
+    }
+
+    tr:nth-child(even) {
+      background-color: #e9a6a6; /* Alternate row color */
+    }
+
+    tr:hover {
+      background-color: #ec8282; /* Hover color */
+    }
+
+    button[type="submit"] {
+      border: none;
+      background-color: rgb(51, 245, 213); /* Adjusted button background color */
+      color: #000000; /* Adjusted button text color */
+      padding: 8px 15px;
+      border-radius: 5px;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.5); /* Neon glow effect for buttons */
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Neon glow effect for button text */
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #eee; /* Adjusted button background color on hover */
+    }
+
+    /* Responsive styling */
+    @media only screen and (max-width: 600px) {
+      table {
+        font-size: 14px; /* Decrease font size for smaller screens */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <a href="/logout" class="logout-button">Logout</a>
+  </div>
+  <h1>Permitted Student Details</h1>
+  <table border="1">
+    <tr>
+      <th>Name</th>
+      <th>Roll Number</th>
+      <th>Parent e-Mail</th>
+      <th>Picture</th>
+      <th>Notify</th>
+      <th>Delete</th>
+    </tr>
+    <% temporaryStudents.forEach(student => { %>
+      <tr>
+        <td><%= student.name %></td>
+        <td><%= student.rollNumber %></td>
+        <td><%= student.parentEmail %></td>
+        <td>
+          <% if (student.picture) { %>
+            <img src="data:image/jpeg;base64,<%= student.picture %>" alt="Student Photo" style="max-width: 100px; max-height: 100px; border-radius: 5px;">
+          <% } else { %>
+            <p>No photo available</p>
+          <% } %>
+        </td>
+        <td>
+          <form action="/notify-parent" method="POST">
+            <input type="hidden" name="parentEmail" value="<%= student.parentEmail %>">
+            <button type="submit">Notify</button>
+          </form>
+        </td>
+        <td>
+          <form action="/delete-student" method="POST">
+            <input type="hidden" name="rollNumber" value="<%= student.rollNumber %>">
+            <button type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% }); %>
+  </table>
+</body>
+</html>
