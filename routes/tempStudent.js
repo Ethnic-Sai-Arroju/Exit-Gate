@@ -6,12 +6,13 @@ const router = express.Router();
 
 router.get('/notify', isAuthenticatedAndAuthorized(['head', 'security']), async (req, res) => {
   try {
+    const userRole=req.session.userRole;
     const temporaryStudents = await TemporaryStudent.find({});
     const studentsWithBase64Pictures = temporaryStudents.map(student => ({
       ...student.toObject(),
       picture: student.picture ? student.picture.toString('base64') : null
     }));
-    res.render('notify', { temporaryStudents: studentsWithBase64Pictures });
+    res.render('notify', { temporaryStudents: studentsWithBase64Pictures, userRole:userRole });
   } catch (err) {
     console.error(err);
     res.status(500).send('Error fetching temporary student details');

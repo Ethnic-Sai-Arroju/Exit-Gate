@@ -1,101 +1,184 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>User Registration</title>
-  <style>
-    body {
-      background-image: url('https://wallpapercave.com/wp/wp4676574.jpg'); /* Replace 'background.jpg' with the path to your background image */
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      color: #ffffff;
-      font-family: 'Roboto', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --gray-light: #e2e8f0;
+            --border: 1px solid #e2e8f0;
+        }
 
-    .container {
-      height: 500px; /* Adjusted height to fit the registration form */
-      width: 400px;
-      padding: 50px;
-      background-color: #eccdcd;
-      border-radius: 5px;
-      box-shadow: 0px 0px 10px rgb(0, 0, 0);
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: rgb(0, 0, 0);
-      text-shadow: 0px 0px 2px rgb(255, 255, 255);
-    }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
 
-    label {
-      display: block;
-      margin-bottom: 10px;
-      color: rgb(0, 0, 0);
-      text-shadow: 0px 0px 0px rgb(0, 0, 0);
-    }
+        .container {
+            width: 100%;
+            max-width: 420px;
+            padding: 2.5rem;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+                        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: var(--border);
+        }
 
-    input[type="email"],
-    input[type="password"],
-    select {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
-      border: none;
-      border-radius: 2px;
-      color: #000000;
-      box-shadow: 0px 0px 5px rgb(0, 0, 0);
-    }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
 
-    input[type="email"]:focus,
-    input[type="password"]:focus,
-    select:focus {
-      outline: none;
-      box-shadow: 0px 0px 15px rgb(233, 156, 40);
-    }
+        .header i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
 
-    input[type="submit"] {
-      width: 100%;
-      margin-top: 30px;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      background-color: rgb(255, 153, 0);
-      color: #000;
-      font-weight: bold;
-      text-transform: uppercase;
-      cursor: pointer;
-      box-shadow: 0px 0px 20px rgb(233, 156, 40);
-    }
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
 
-    input[type="submit"]:hover {
-      background-color: rgb(180, 131, 56);
-    }
-  </style>
+        .subtitle {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            border: var(--border);
+            border-radius: 8px;
+            background-color: white;
+            color: var(--dark);
+            transition: all 0.15s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+            margin-top: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-light);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        .login-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>User Registration</h1>
-    <form action="/register" method="POST">
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
+    <div class="container">
+        <div class="header">
+            <i class="fas fa-user-plus"></i>
+            <h1>Create Your Account</h1>
+            <p class="subtitle">Join our platform to get started</p>
+        </div>
+        
+        <form action="/register" method="POST">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a password" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="role">Account Type</label>
+                <select id="role" name="role" required>
+                    <option value="" disabled selected>Select your role</option>
+                    <option value="head">Head</option>
+                    <option value="security">Security</option>
+                </select>
+            </div>
+            
+            <input type="submit" class="btn btn-primary" value="Register">
+        </form>
+        
+        <div class="login-link">
+            Already have an account? <a href="/">Sign in</a>
+        </div>
+    </div>
 
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required>
-
-      <label for="role">Role:</label>
-      <select id="role" name="role" required>
-        <option value="head">Head</option>
-        <option value="security">Security</option>
-      </select>
-
-      <input type="submit" value="Register">
-    </form>
-  </div>
+    <!-- Font Awesome for icons (loaded only if needed) -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>

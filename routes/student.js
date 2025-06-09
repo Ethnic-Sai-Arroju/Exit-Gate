@@ -105,4 +105,22 @@ router.get('/permit-student-details', async (req, res) => {
   }
 });
 
+router.get('/get-students', isAuthenticatedAndAuthorized(['head', 'security']), async (req, res) => {
+  try {
+    const students = await Student.find();
+
+    const response = students.map(student => ({
+      name: student.name,
+      rollNumber: student.rollNumber,
+      parentEmail: student.parentEmail,
+      picture: student.picture ? student.picture.toString('base64') : null
+    }));
+
+    res.status(200).json(response);
+  } catch (err) {
+    console.error('Error fetching students:', err);
+    res.status(500).json({ message: 'Error fetching student data' });
+  }
+});
+
 module.exports = router;
